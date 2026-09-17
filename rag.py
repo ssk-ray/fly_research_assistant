@@ -50,10 +50,19 @@ Question:
 """
 
     client_gemini = get_gemini_client()
-    response = client_gemini.models.generate_content(
-        model="gemini-3.6-flash",  # current free-tier model per Gemini API
-        contents=prompt,
-    )
+    try:
+        response = client_gemini.models.generate_content(
+            model="gemini-3.6-flash",  # current free-tier model per Gemini API
+            contents=prompt,
+        )
+    except Exception:
+        # Fallback if the primary model is temporarily overloaded (503) —
+        # gemini-flash-latest is an alias Google keeps pointed at a stable,
+        # generally-available flash model.
+        response = client_gemini.models.generate_content(
+            model="gemini-flash-latest",
+            contents=prompt,
+        )
 
     answer = response.text
 
