@@ -51,7 +51,7 @@ Question:
 
     client_gemini = get_gemini_client()
     response = client_gemini.models.generate_content(
-        model="gemini-2.5-flash",  # free tier, fast, good fit for this kind of Q&A
+        model="gemini-3.6-flash",  # current free-tier model per Gemini API
         contents=prompt,
     )
 
